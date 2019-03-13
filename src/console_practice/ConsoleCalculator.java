@@ -1,4 +1,4 @@
-package ru.elenet.console;
+package console_practice;
 
 import java.util.Scanner;
 
@@ -35,13 +35,13 @@ public class ConsoleCalculator {
         if (!s.contains("(") && !s.contains(")")) return s;
         StringBuilder sb = new StringBuilder();
         int bracketCount = 0;
-        int start = 0;
-        int end = 0;
+        int firstInsideBrackets = 0;
+        int firstOutsideBrackets = 0;
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '(') {
                 if (bracketCount == 0) {
-                    start = i + 1;
-                    sb.append(s.substring(end, i));
+                    firstInsideBrackets = i + 1;
+                    sb.append(s.substring(firstOutsideBrackets, i));
                 }
                 bracketCount++;
             } else if (s.charAt(i) == ')') {
@@ -50,15 +50,15 @@ public class ConsoleCalculator {
                 }
                 bracketCount--;
                 if (bracketCount == 0) {
-                    sb.append(String.valueOf(calculate(s.substring(start, i))));
-                    end = i + 1;
+                    sb.append(String.valueOf(calculate(s.substring(firstInsideBrackets, i))));
+                    firstOutsideBrackets = i + 1;
                 }
             }
         }
         if (bracketCount != 0) {
             throw new RuntimeException("More opening brackets than closing ones.");
         }
-        sb.append(s.substring(end));
+        sb.append(s.substring(firstOutsideBrackets));
         return sb.toString();
     }
 
