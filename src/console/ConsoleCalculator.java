@@ -1,4 +1,4 @@
-package console_practice;
+package console;
 
 import java.util.Scanner;
 
