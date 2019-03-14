@@ -83,6 +83,15 @@ public class ConsoleCalculator {
             case "+":
                 return Double.parseDouble(tokens[0]) + calc(rest);
             case "-":
+                for (int i = 1; i < rest.length; i += 2) {
+                    if (rest[i].equals("+")) {
+                        rest[i] = "-";
+                        continue;
+                    }
+                    if (rest[i].equals("-")) {
+                        rest[i] = "+";
+                    }
+                }
                 return Double.parseDouble(tokens[0]) - calc(rest);
             case "*":
                 rest[0] = String.valueOf(Double.parseDouble(tokens[0]) * Double.parseDouble(tokens[2]));
