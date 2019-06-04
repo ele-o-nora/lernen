@@ -1,5 +1,7 @@
 package console;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class ConsoleCalculator {
@@ -16,8 +18,10 @@ public class ConsoleCalculator {
             if (s.equalsIgnoreCase("q")) {
                 break;
             }
+            DecimalFormat df = new DecimalFormat("#.####");
+            df.setRoundingMode(RoundingMode.HALF_UP);
             try {
-                System.out.println(s + " = " + calculate(s));
+                System.out.println(s + " = " + df.format(calculate(s)));
             } catch (RuntimeException e) {
                 System.out.println("Invalid input: " + e.getMessage() + " Please try again.");
             }
@@ -26,8 +30,9 @@ public class ConsoleCalculator {
     }
 
     private static double calculate(String s) {
+        s = s.trim();
         String toCalc = openBrackets(s);
-        String[] tokens = toCalc.split(" ");
+        String[] tokens = toCalc.split(" +");
         return calc(tokens);
     }
 
@@ -50,7 +55,7 @@ public class ConsoleCalculator {
                 }
                 bracketCount--;
                 if (bracketCount == 0) {
-                    sb.append(String.valueOf(calculate(s.substring(firstInsideBrackets, i))));
+                    sb.append(calculate(s.substring(firstInsideBrackets, i)));
                     firstOutsideBrackets = i + 1;
                 }
             }
